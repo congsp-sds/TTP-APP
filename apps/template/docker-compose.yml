@@ -8,27 +8,37 @@ services:
       SA_PASSWORD: "YourStrong!Pass123"
       ACCEPT_EULA: "Y"
     ports:
-      - "1433:1433"
+      - "1433:1433" # chỉ để debug, có thể bỏ khi prod
     volumes:
       - dbdata:/var/opt/mssql
-      - ./database/schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
-      - ./database/seed.sql:/docker-entrypoint-initdb.d/2_seed.sql
-      - ./database/views.sql:/docker-entrypoint-initdb.d/3_views.sql
+      - ./database:/database
+    command: >
+      /bin/bash -c "
+      /opt/mssql/bin/sqlservr &
+      sleep 15 &&
+      /database/init-db.sh
+      "
+    healthcheck:
+      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourStrong!Pass123", "-Q", "SELECT 1"]
+      interval: 10s
+      retries: 10
 
   backend:
-    build: ./backend
+    build:
+      context: ../../apps/backend
     container_name: smartfactory-api
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     environment:
       ASPNETCORE_ENVIRONMENT: Development
-      ConnectionStrings__Default:
-        "Server=db;Database=SmartFactory;User Id=sa;Password=YourStrong!Pass123;"
+      ConnectionStrings__Default: "Server=db;Database=SmartFactory;User Id=sa;Password=YourStrong!Pass123;"
     ports:
       - "5000:80"
 
   frontend:
-    build: ./frontend
+    build:
+      context: ../../apps/frontend
     container_name: smartfactory-web
     depends_on:
       - backend
