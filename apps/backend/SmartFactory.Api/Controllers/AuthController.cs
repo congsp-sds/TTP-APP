@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 using SmartFactory.Api.Services;
-using SmartFactory.Application.Auth.Dtos;
+using SmartFactory.Application.Common.Dtos;
 
 [ApiController]
 [Route("api/auth")]

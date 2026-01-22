@@ -3,7 +3,7 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using SmartFactory.Application.Auth.Dtos;
+using SmartFactory.Application.Common.Dtos;
 
 namespace SmartFactory.Api.Services;
 
