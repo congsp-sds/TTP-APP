@@ -1,0 +1,39 @@
+version: "3.9"
+
+services:
+  db:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    container_name: smartfactory-db
+    environment:
+      SA_PASSWORD: "YourStrong!Pass123"
+      ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - dbdata:/var/opt/mssql
+      - ./database/schema.sql:/docker-entrypoint-initdb.d/1_schema.sql
+      - ./database/seed.sql:/docker-entrypoint-initdb.d/2_seed.sql
+      - ./database/views.sql:/docker-entrypoint-initdb.d/3_views.sql
+
+  backend:
+    build: ./backend
+    container_name: smartfactory-api
+    depends_on:
+      - db
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ConnectionStrings__Default:
+        "Server=db;Database=SmartFactory;User Id=sa;Password=YourStrong!Pass123;"
+    ports:
+      - "5000:80"
+
+  frontend:
+    build: ./frontend
+    container_name: smartfactory-web
+    depends_on:
+      - backend
+    ports:
+      - "5173:80"
+
+volumes:
+  dbdata:
