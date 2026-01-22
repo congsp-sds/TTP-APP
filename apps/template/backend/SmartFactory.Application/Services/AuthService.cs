@@ -3,6 +3,9 @@ using Microsoft.IdentityModel.Tokens;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using SmartFactory.Application.Auth.Dtos;
+
+namespace SmartFactory.Api.Services;
 
 public class AuthService
 {
@@ -15,7 +18,6 @@ public class AuthService
 
     public LoginResponse Login(string username, string password)
     {
-        // DEMO USERS
         var users = new Dictionary<string, string>
         {
             ["admin"] = "ADMIN",

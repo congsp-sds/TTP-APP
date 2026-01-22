@@ -40,7 +40,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     });
 
 // DI
-builder.Services.AddScoped<AuthService>();
+builder.Services.AddScoped<SmartFactory.Api.Services.AuthService>();
 builder.Services.AddScoped<ReportRepository>(
     _ => new ReportRepository(
         builder.Configuration.GetConnectionString("Default")

@@ -1,0 +1,24 @@
+# Ignore build outputs
+bin/
+obj/
+
+# Ignore tooling
+.vs/
+.vscode/
+
+# Ignore user files
+*.user
+*.suo
+
+# Ignore git
+.git
+.gitignore
+
+# Ignore docs
+README.md
+
+# ❗ KHÔNG IGNORE SOURCE ❗
+!SmartFactory.Api/**
+!SmartFactory.Application/**
+!SmartFactory.Infrastructure/**
+!SmartFactory.Domain/**

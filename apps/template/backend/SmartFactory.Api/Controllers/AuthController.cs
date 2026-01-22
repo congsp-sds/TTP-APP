@@ -1,4 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
+using SmartFactory.Api.Services;
+using SmartFactory.Application.Auth.Dtos;
 
 [ApiController]
 [Route("api/auth")]
@@ -16,7 +18,7 @@ public class AuthController : ControllerBase
     {
         var result = _auth.Login(req.Username, req.Password);
         if (result == null)
-            return Unauthorized("Invalid credentials");
+            return Unauthorized();
 
         return Ok(result);
     }
