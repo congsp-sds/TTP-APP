@@ -1,7 +1,6 @@
 -- =========================
 -- INVENTORY VIEW
 -- =========================
-
 CREATE VIEW V_Inventory AS
 SELECT
     p.ProductID,
@@ -12,13 +11,12 @@ SELECT
 FROM Documents d
 JOIN ProductionOrders l ON d.LsxID = l.LsxID
 JOIN Products p ON l.ProductID = p.ProductID
-GROUP BY p.ProductID, p.MaCai, p.TenSP;
-
+GROUP BY p.ProductID, p.MaCai, p.TenSP
+GO
 
 -- =========================
 -- PRODUCTION REPORT
 -- =========================
-
 CREATE VIEW V_ProductionReport AS
 SELECT
     l.MaLsxGc,
@@ -28,4 +26,5 @@ SELECT
 FROM ProductionOrders l
 JOIN Products p ON l.ProductID = p.ProductID
 LEFT JOIN Documents d ON l.LsxID = d.LsxID
-GROUP BY l.MaLsxGc, p.TenSP;
+GROUP BY l.MaLsxGc, p.TenSP
+GO

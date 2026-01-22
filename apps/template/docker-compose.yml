@@ -8,17 +8,11 @@ services:
     volumes:
       - dbdata:/var/opt/mssql
       - ./database:/database
-    command: >
-      /bin/bash -c "
-      /opt/mssql/bin/sqlservr &
-      sleep 15 &&
-      /database/init-db.sh
-      "
     healthcheck:
-      test: ["CMD", "/opt/mssql-tools/bin/sqlcmd", "-S", "localhost", "-U", "sa", "-P", "YourStrong!Pass123", "-Q", "SELECT 1"]
+      test: ["CMD", "/opt/mssql-tools18/bin/sqlcmd", "-C", "-S", "localhost", "-U", "sa", "-P", "YourStrong!Pass123", "-Q", "SELECT 1"]
       interval: 10s
       retries: 10
-
+      
   backend:
     build:
       context: ../../apps/backend
